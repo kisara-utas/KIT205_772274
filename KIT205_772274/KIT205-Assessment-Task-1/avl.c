@@ -109,22 +109,22 @@ AVLNode* avl_insert_node(AVLNode* node, char* destination) {
 
 	
 	if (balance > 1 && strcmp(destination, node->left->destination) < 0)
-		return rotate_right(node);
+		return right_rotate(node);
 
 	
 	if (balance < -1 && strcmp(destination, node->right->destination) > 0)
-		return rotate_left(node);
+		return left_rotate(node);
 
 	
 	if (balance > 1 && strcmp(destination, node->left->destination) > 0) {
-		node->left = rotate_left(node->left);
-		return rotate_right(node);
+		node->left = left_rotate(node->left);
+		return right_rotate(node);
 	}
 
 	
 	if (balance < -1 && strcmp(destination, node->right->destination) < 0) {
-		node->right = rotate_right(node->right);
-		return rotate_left(node);
+		node->right = right_rotate(node->right);
+		return left_rotate(node);
 	}
 
 	return node;
