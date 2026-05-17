@@ -32,5 +32,8 @@
     <ClInclude Include="bst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="avl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

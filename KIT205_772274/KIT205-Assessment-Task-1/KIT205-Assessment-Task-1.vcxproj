@@ -133,6 +133,7 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="avl.h" />
     <ClInclude Include="bst.h" />
     <ClInclude Include="linked_list.h" />
   </ItemGroup>
