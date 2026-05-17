@@ -58,6 +58,18 @@ BST insert_bst(BST tree, char* code) {
 
 }
 
+// Find an airport node in the BST by airport code
+
+BSTNode* find_bst(BSTNode* root, char* code) {
+
+	if (root == NULL) return NULL; // Base case: not found
+	int cmp = strcmp(code, root->code); // Compare the target code with the current node's code
+	if (cmp == 0) return root; // Found 
+	if (cmp < 0) return find_bst(root->left, code); //  code is less than current node's code, search left subtree	
+	return find_bst(root->right, code); //  code is greater than current node's code, search right subtree
+
+}
+
 
 
 
