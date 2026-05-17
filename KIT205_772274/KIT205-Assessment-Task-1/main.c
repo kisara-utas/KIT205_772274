@@ -5,6 +5,7 @@
 #include "bst.h"
 #include "avl.h"
 #include "database.h"
+#include <time.h>
 
 void test_linked_list() {
 	printf("\n---------Testing Linked List Implementation---------\n");
@@ -276,6 +277,63 @@ void test_database() {
     printf("---------Finished Testing Database Implementation---------\n\n");
 }
 
+void evaluate_performance() {
+    printf("---------Performance Evaluation---------\n");
+    printf("Testing insertion performance for both prototypes\n\n");
+
+    int sizes[] = { 1000, 5000, 10000, 50000, 100000, 500000, 1000000 };
+    int num_sizes = 7;
+
+    printf("%-10s %-20s %-20s\n", "N", "Prototype1 (ms)", "Prototype2 (ms)");
+    printf("%-10s %-20s %-20s\n", "---", "---------------", "---------------");
+
+    for (int i = 0; i < num_sizes; i++) {
+        int n = sizes[i];
+
+        // Test Prototype 1 - BST of Linked Lists
+        Database1 db1 = new_database1();
+        clock_t start1 = clock();
+        for (int j = 0; j < n; j++) {
+            char from[4], to[4];
+            from[0] = 'A' + (j % 26);
+            from[1] = 'A' + ((j / 26) % 26);
+            from[2] = 'A' + ((j / 676) % 26);
+            from[3] = '\0';
+            to[0] = 'A' + ((j + 1) % 26);
+            to[1] = 'A' + (((j + 1) / 26) % 26);
+            to[2] = 'A' + (((j + 1) / 676) % 26);
+            to[3] = '\0';
+            db1_add_route(&db1, from, to);
+        }
+        clock_t end1 = clock();
+        double time1 = ((double)(end1 - start1)) / CLOCKS_PER_SEC * 1000;
+        free_database1(&db1);
+
+        // Test Prototype 2 - BST of AVL Trees
+        Database2 db2 = new_database2();
+        clock_t start2 = clock();
+        for (int j = 0; j < n; j++) {
+            char from[4], to[4];
+            from[0] = 'A' + (j % 26);
+            from[1] = 'A' + ((j / 26) % 26);
+            from[2] = 'A' + ((j / 676) % 26);
+            from[3] = '\0';
+            to[0] = 'A' + ((j + 1) % 26);
+            to[1] = 'A' + (((j + 1) / 26) % 26);
+            to[2] = 'A' + (((j + 1) / 676) % 26);
+            to[3] = '\0';
+            db2_add_route(&db2, from, to);
+        }
+        clock_t end2 = clock();
+        double time2 = ((double)(end2 - start2)) / CLOCKS_PER_SEC * 1000;
+        free_database2(db2.root);
+
+        printf("%-10d %-20.4f %-20.4f\n", n, time1, time2);
+    }
+
+    printf("\n---------Finished Performance Evaluation---------\n");
+}
+
 
 int main() {
 	printf("KIT205 - Flight Routes Database - Done by Kisara Batugedara (772274)\n");
@@ -284,6 +342,7 @@ int main() {
 	test_bst();
     test_avl();
     test_database();
+	evaluate_performance();
 	
 	return 0;
 }
