@@ -34,3 +34,25 @@ void db1_add_route(Database1* db, char* from, char* to) {
     }
 }
 
+// Print all airports in alphabetical order
+void db1_print_airports(Database1* db) {
+    printf("Airports:\n");
+    print_bst(db->airports.root);
+}
+
+
+// Print all routes from a given airport
+void db1_print_routes(Database1* db, char* airport) {
+    BSTNode* node = find_bst(db->airports.root, airport);
+    if (node == NULL) {
+        printf("Airport %s not found\n", airport);
+        return;
+    }
+    printf("Routes from %s: ", airport);
+    print_routes(&node->routes);
+}
+
+void free_database1(Database1* db) {
+    free_bst(db->airports.root);
+    db->airports.root = NULL;
+}
