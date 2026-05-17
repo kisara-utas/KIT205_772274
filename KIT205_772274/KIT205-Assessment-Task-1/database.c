@@ -16,18 +16,14 @@ Database1 new_database1() {
 
 // Add a route from one airport to another
 void db1_add_route(Database1* db, char* from, char* to) {
-    
     db->airports = insert_bst(db->airports, from);
-    
     db->airports = insert_bst(db->airports, to);
 
-    
-    BSTNode* node = find_bst(db->airports.root, from);
-    if (node != NULL) {
-        insert_route(&node->routes, to);
+    BSTNode* from_node = find_bst(db->airports.root, from);
+    if (from_node != NULL) {
+        insert_route(&from_node->routes, to);
     }
 
-   
     BSTNode* to_node = find_bst(db->airports.root, to);
     if (to_node != NULL) {
         insert_route(&to_node->routes, from);

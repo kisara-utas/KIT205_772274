@@ -4,6 +4,7 @@
 #include "linked_list.h"
 #include "bst.h"
 #include "avl.h"
+#include "database.h"
 
 void test_linked_list() {
 	printf("\n---------Testing Linked List Implementation---------\n");
@@ -187,6 +188,94 @@ void test_avl() {
 
 }
 
+void test_database() {
+    printf("---------Testing Database Implementation---------\n");
+
+    // === PROTOTYPE 1 TESTS ===
+    printf("--- Prototype 1: BST of Linked Lists ---\n");
+
+  
+    Database1 db1 = new_database1();
+    printf("Test 1 - Empty database airports: \n");
+    db1_print_airports(&db1);  // expected output: nothing
+
+   
+    db1_add_route(&db1, "MEL", "SYD");
+    printf("Test 2 - Add MEL->SYD, print airports:\n");
+    db1_print_airports(&db1);  // expected output: MEL SYD
+
+    
+    printf("Test 3 - Routes from MEL: ");
+    db1_print_routes(&db1, "MEL");  // expected output: SYD
+
+    
+    printf("Test 4 - Routes from SYD (many-to-many): ");
+    db1_print_routes(&db1, "SYD");  // expected output: MEL
+
+    
+    db1_add_route(&db1, "MEL", "LAX");
+    db1_add_route(&db1, "MEL", "BKK");
+    db1_add_route(&db1, "SYD", "LAX");
+    printf("Test 5 - More routes, print airports:\n");
+    db1_print_airports(&db1);  // expected output: BKK LAX MEL SYD
+
+   
+    printf("Test 6 - Routes from MEL: ");
+    db1_print_routes(&db1, "MEL");  // expected output : BKK LAX SYD
+
+    
+    printf("Test 7 - Airport not found: ");
+    db1_print_routes(&db1, "ZZZ");  // expected output: not found message
+
+    free_database1(&db1);
+    printf("Test 8 - Free database 1: Freed\n\n");
+
+    
+
+    // === PROTOTYPE 2 TESTS ===
+    printf("--- Prototype 2: BST of AVL Trees ---\n");
+
+    
+    Database2 db2 = new_database2();
+    printf("Test 9 - Empty database airports:\n");
+    db2_print_airports(&db2);  // expected output: nothing
+
+    
+    db2_add_route(&db2, "MEL", "SYD");
+    printf("Test 10 - Add MEL->SYD, print airports:\n");
+    db2_print_airports(&db2);  // expected output: MEL SYD
+
+   
+    printf("Test 11 - Routes from MEL: ");
+    db2_print_routes(&db2, "MEL");  // expected output: SYD
+
+    
+    printf("Test 12 - Routes from SYD (many-to-many): ");
+    db2_print_routes(&db2, "SYD");  // expected output: MEL
+
+    
+    db2_add_route(&db2, "MEL", "LAX");
+    db2_add_route(&db2, "MEL", "BKK");
+    db2_add_route(&db2, "SYD", "LAX");
+    printf("Test 13 - More routes, print airports:\n");
+    db2_print_airports(&db2);  // expected output: BKK LAX MEL SYD
+
+    
+    printf("Test 14 - Routes from MEL: ");
+    db2_print_routes(&db2, "MEL");  // expected output: BKK LAX SYD
+
+   
+    printf("Test 15 - Airport not found: ");
+    db2_print_routes(&db2, "ZZZ");  // expected output: not found message
+
+    free_database2(db2.root);
+    printf("Test 16 - Free database 2: Freed\n");
+
+    
+
+    printf("---------Finished Testing Database Implementation---------\n\n");
+}
+
 
 int main() {
 	printf("KIT205 - Flight Routes Database - Done by Kisara Batugedara (772274)\n");
@@ -194,6 +283,7 @@ int main() {
 	test_linked_list();
 	test_bst();
     test_avl();
+    test_database();
 	
 	return 0;
 }

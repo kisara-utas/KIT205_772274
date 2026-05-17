@@ -16,28 +16,34 @@ RouteList new_route_list() {
 
 // inserting a destination in alphabetical order in the route list
 void insert_route(RouteList* list, char* destination) {
+    // Check for duplicate first
+    RouteNode* current = list->head;
+    while (current != NULL) {
+        if (strcmp(current->destination, destination) == 0) {
+            return;  // already exists, don't insert
+        }
+        current = current->next;
+    }
 
-	// creating a new node
-	RouteNode* new_node = (RouteNode*)malloc(sizeof(RouteNode));
-	strcpy_s(new_node->destination, sizeof(new_node->destination), destination);
-	new_node->next = NULL;
+    // Create new node
+    RouteNode* new_node = (RouteNode*)malloc(sizeof(RouteNode));
+    strcpy_s(new_node->destination, 4 , destination);
+    new_node->next = NULL;
 
-	// if the list is empty or new node is before the head alphabetically 
-	if (list->head == NULL || strcmp(destination, list->head->destination) < 0) {
-		new_node->next = list->head;
-		list->head = new_node;
-		return;
-	}
+    // If list is empty or new node goes before head
+    if (list->head == NULL || strcmp(destination, list->head->destination) < 0) {
+        new_node->next = list->head;
+        list->head = new_node;
+        return;
+    }
 
-	// finding the correct position to insert the new node
-	RouteNode* current = list->head;
-	while (current->next != NULL && strcmp(current->next->destination, destination) < 0) {
-		current = current->next;
-	}
-
-	// inserting after the current node
-	new_node->next = current->next;
-	current->next = new_node;
+    // Find the correct position
+    RouteNode* curr = list->head;
+    while (curr->next != NULL && strcmp(curr->next->destination, destination) < 0) {
+        curr = curr->next;
+    }
+    new_node->next = curr->next;
+    curr->next = new_node;
 }
 
 // printing all destinations in the route list
