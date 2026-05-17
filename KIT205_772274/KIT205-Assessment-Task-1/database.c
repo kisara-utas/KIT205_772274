@@ -44,7 +44,6 @@ void db1_print_routes(Database1* db, char* airport) {
         printf("Airport %s not found\n", airport);
         return;
     }
-    printf("Routes from %s: ", airport);
     print_routes(&node->routes);
 }
 
@@ -126,7 +125,6 @@ void db2_print_routes(Database2* db, char* airport) {
         printf("Airport %s not found\n", airport);
         return;
     }
-    printf("Routes from %s: ", airport);
     print_avl(node->routes.root);
     printf("\n");
 }
