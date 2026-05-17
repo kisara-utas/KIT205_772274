@@ -119,3 +119,26 @@ void db2_print_airports_helper(AVLBSTNode* root) {
 }
 
 
+void db2_print_airports(Database2* db) {
+    printf("Airports:\n");
+    db2_print_airports_helper(db->root);
+}
+
+void db2_print_routes(Database2* db, char* airport) {
+    AVLBSTNode* node = avlbst_find(db->root, airport);
+    if (node == NULL) {
+        printf("Airport %s not found\n", airport);
+        return;
+    }
+    printf("Routes from %s: ", airport);
+    print_avl(node->routes.root);
+    printf("\n");
+}
+
+void free_database2(AVLBSTNode* root) {
+    if (root == NULL) return;
+    free_database2(root->left);
+    free_database2(root->right);
+    free_avl(root->routes.root);
+    free(root);
+}
