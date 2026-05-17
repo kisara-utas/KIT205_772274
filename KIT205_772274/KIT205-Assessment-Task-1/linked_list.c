@@ -16,7 +16,7 @@ void insert_route(RouteList* list, char* destination) {
 
 	// creating a new node
 	RouteNode* new_node = (RouteNode*)malloc(sizeof(RouteNode));
-	strcpy(new_node->destination, destination, 4);
+	strcpy_s(new_node->destination, sizeof(new_node->destination), destination);
 	new_node->next = NULL;
 
 	// if the list is empty or new node is before the head alphabetically 
