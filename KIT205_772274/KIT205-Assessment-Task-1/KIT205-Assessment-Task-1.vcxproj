@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="avl.h" />
     <ClInclude Include="bst.h" />
+    <ClInclude Include="database.h" />
     <ClInclude Include="linked_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
