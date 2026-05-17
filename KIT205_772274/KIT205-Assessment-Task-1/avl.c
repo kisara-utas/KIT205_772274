@@ -140,21 +140,22 @@ AVLTree avl_insert(AVLTree tree, char* destination) {
 
 // print the AVL tree in-order (sorted by destination)
 void print_avl(AVLNode* node) {
-	if (node != NULL) {
-		print_avl(node->left);
-		printf("%s ", node->destination);
-		print_avl(node->right);
-	}
+	if (node == NULL) return;
+	print_avl(node->left);
+	printf("%s ", node->destination);
+	print_avl(node->right);
 }
 
 
 // free the memory w
 void free_avl(AVLNode* node) {
-	if (node != NULL) return;
+	if (node == NULL) return;
 	free_avl(node->left);
 	free_avl(node->right);
-	free(node);
+	free(node);		
 }
+
+
 
 
 
