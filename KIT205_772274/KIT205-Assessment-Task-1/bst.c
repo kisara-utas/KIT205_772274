@@ -62,13 +62,37 @@ BST insert_bst(BST tree, char* code) {
 
 BSTNode* find_bst(BSTNode* root, char* code) {
 
-	if (root == NULL) return NULL; // Base case: not found
+	if (root == NULL) return NULL; // not found
 	int cmp = strcmp(code, root->code); // Compare the target code with the current node's code
 	if (cmp == 0) return root; // Found 
 	if (cmp < 0) return find_bst(root->left, code); //  code is less than current node's code, search left subtree	
 	return find_bst(root->right, code); //  code is greater than current node's code, search right subtree
 
 }
+
+// print all airport codes in the BST in-order 
+
+void print_bst(BSTNode* root) {
+	if (root == NULL) return; // empty subtree
+	print_bst(root->left); // print left subtree
+	printf("%s\n", root->code); // print current node's code
+	print_bst(root->right); // print right subtree
+}
+
+// Free all memory
+
+void free_bst(BSTNode* root) {
+
+	if (root == NULL) return; 
+	free_bst(root->left); 
+	free_bst(root->right); 
+	free_route_list(&root->routes); 
+	free(root); 
+
+}
+
+
+
 
 
 
