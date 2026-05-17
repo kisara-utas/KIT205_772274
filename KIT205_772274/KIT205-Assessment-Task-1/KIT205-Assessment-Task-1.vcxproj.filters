@@ -26,5 +26,8 @@
     <ClInclude Include="linked_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
