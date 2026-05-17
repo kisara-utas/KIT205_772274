@@ -56,3 +56,38 @@ void free_database1(Database1* db) {
     free_bst(db->airports.root);
     db->airports.root = NULL;
 }
+
+
+// Database 2 - BST of AVL Trees
+
+Database2 new_database2() {
+    Database2 db;
+    db.root = NULL;
+    return db;
+}
+
+AVLBSTNode* new_avlbst_node(char* code) {
+    AVLBSTNode* node = (AVLBSTNode*)malloc(sizeof(AVLBSTNode));
+    strcpy_s(node->code, 4, code);
+    node->routes = new_avl_tree();
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+
+AVLBSTNode* avlbst_insert(AVLBSTNode* root, char* code) {
+    if (root == NULL) return new_avlbst_node(code);
+    int cmp = strcmp(code, root->code);
+    if (cmp < 0) root->left = avlbst_insert(root->left, code);
+    else if (cmp > 0) root->right = avlbst_insert(root->right, code);
+    return root;
+}
+
+AVLBSTNode* avlbst_find(AVLBSTNode* root, char* code) {
+    if (root == NULL) return NULL;
+    int cmp = strcmp(code, root->code);
+    if (cmp == 0) return root;
+    if (cmp < 0) return avlbst_find(root->left, code);
+    return avlbst_find(root->right, code);
+}
