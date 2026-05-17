@@ -91,3 +91,31 @@ AVLBSTNode* avlbst_find(AVLBSTNode* root, char* code) {
     if (cmp < 0) return avlbst_find(root->left, code);
     return avlbst_find(root->right, code);
 }
+
+
+void db2_add_route(Database2* db, char* from, char* to) {
+  
+    db->root = avlbst_insert(db->root, from);
+    db->root = avlbst_insert(db->root, to);
+
+    
+    AVLBSTNode* from_node = avlbst_find(db->root, from);
+    if (from_node != NULL) {
+        from_node->routes = avl_insert(from_node->routes, to);
+    }
+
+    
+    AVLBSTNode* to_node = avlbst_find(db->root, to);
+    if (to_node != NULL) {
+        to_node->routes = avl_insert(to_node->routes, from);
+    }
+}
+
+void db2_print_airports_helper(AVLBSTNode* root) {
+    if (root == NULL) return;
+    db2_print_airports_helper(root->left);
+    printf("%s\n", root->code);
+    db2_print_airports_helper(root->right);
+}
+
+
