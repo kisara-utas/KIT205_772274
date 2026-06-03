@@ -49,3 +49,29 @@ void test_load_graph() {
 	printf("PASSED\n");
 }
 
+
+void test_in_degrees() {
+	printf("TEST: in_degrees calculation ");
+	Graph *g = new_graph(3);
+	add_edge(g, 0, 1, 1.0f);
+	add_edge(g, 0, 2, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+
+	int in_degree[3] = { 0, 0, 0 };
+	for (int v = 0; v < g->V; v++) {
+
+		EdgeNodePtr curr = g->edges[v].head;
+		while (curr) {
+			in_degree[curr->edge.to_vertex]++;
+			curr = curr->next;
+		}
+
+	}
+
+	assert(in_degree[0] == 0);
+	assert(in_degree[1] == 1);
+	assert(in_degree[2] == 2);	
+
+	free_graph(g);
+	printf("PASSED\n");
+}
