@@ -75,3 +75,28 @@ void test_in_degrees() {
 	free_graph(g);
 	printf("PASSED\n");
 }
+
+
+int main(void) {
+	printf("=== Unit tests: Graph Data Structure ===\n");	
+	test_new_graph();
+	test_add_edge();
+	test_load_graph();
+	test_in_degrees();
+	printf("=== All tests passed ===\n");
+
+
+	printf("=== Loading Brain Network ===\n");
+
+	Graph *g = load_graph("data/brain_small.txt");
+
+	if (g) {
+
+		print_graph(g);
+		free_graph(g);	
+		
+	}
+
+	return 0;
+
+}
