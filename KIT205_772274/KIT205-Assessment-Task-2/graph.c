@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "graph.h"
 
 // create a new empty graph with V vertices
@@ -55,12 +56,35 @@ void add_edge(Graph* self, int from, int to, float w) {
 
 Graph* load_graph(const char* filename) {
 
-
 	FILE* file = fopen(filename, "r");
-	if (file == NULL) {
 
-		printf("Error opening file: %s\n", filename);
-		return NULL;
+	// If file not found, try alternative paths
+	if (file == NULL) {
+		char buffer[256];
+
+		// Try relative path from project directory
+		snprintf(buffer, sizeof(buffer), "data/%s", filename);
+		printf("Trying: %s\n", buffer);
+		file = fopen(buffer, "r");
+
+		// Try from one level up
+		if (file == NULL) {
+			snprintf(buffer, sizeof(buffer), "../KIT205-Assessment-Task-2/data/%s", filename);
+			printf("Trying: %s\n", buffer);
+			file = fopen(buffer, "r");
+		}
+
+		// Try from two levels up
+		if (file == NULL) {
+			snprintf(buffer, sizeof(buffer), "../../KIT205-Assessment-Task-2/data/%s", filename);
+			printf("Trying: %s\n", buffer);
+			file = fopen(buffer, "r");
+		}
+
+		if (file == NULL) {
+			printf("Error opening file: %s (all attempts failed)\n", filename);
+			return NULL;
+		}
 	}
 
 	int V;
@@ -98,23 +122,33 @@ Graph* load_graph(const char* filename) {
 }
 
 void print_graph(Graph* self) {
-
-	printf("\n=== Brain Network Graph (%d regions) ===\n", self->V);
+	printf("\n");
+	printf("============================================================\n");
+	printf("  Brain Network Graph  (%d regions)\n", self->V);
+	printf("============================================================\n");
 
 	for (int v = 0; v < self->V; v++) {
 		const char* label = self->labels[v] ? self->labels[v] : "?";
-		printf(" [%d] %s%s -> ", v, label, self->active[v] ? "" : " (LESIONED)");
 
+		/* Region header line */
+		printf("  [%d] %-16s", v, label);
+		if (!self->active[v]) printf(" (LESIONED)");
+		printf("\n");
+
+		/* Connections, indented underneath */
 		EdgeNodePtr curr = self->edges[v].head;
-		if (!curr) printf("(no connections)");
+		if (!curr) {
+			printf("        (no connections)\n");
+		}
 		while (curr) {
 			int nb = curr->edge.to_vertex;
-			printf("%s(%.2f ", self->labels[nb] ? self->labels[nb] : "?", curr->edge.weight);
+			const char* nb_label = self->labels[nb] ? self->labels[nb] : "?";
+			printf("        -> %-16s (strength %.2f)\n", nb_label, curr->edge.weight);
 			curr = curr->next;
 		}
 		printf("\n");
 	}
-
+	printf("============================================================\n\n");
 }
 
 void free_graph(Graph* self) {

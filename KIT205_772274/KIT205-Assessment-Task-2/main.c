@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <direct.h>
 #include "graph.h"
 
 void test_new_graph() {
@@ -40,11 +41,11 @@ void test_add_edge() {
 
 void test_load_graph() {
 	printf("TEST: load_graph reads graph from file correctly... ");
-	Graph *g = load_graph("data/brain_small.txt");
+	Graph *g = load_graph("brain_small.txt");
 	assert(g != NULL);
 	assert(g->V == 8);
 	assert(g->edges[0].head != NULL);
-	
+
 	free_graph(g);
 	printf("PASSED\n");
 }
@@ -78,6 +79,10 @@ void test_in_degrees() {
 
 
 int main(void) {
+	char cwd[256];
+	_getcwd(cwd, sizeof(cwd));
+	printf("Working directory: %s\n", cwd);
+
 	printf("=== Unit tests: Graph Data Structure ===\n");	
 	test_new_graph();
 	test_add_edge();
@@ -88,7 +93,7 @@ int main(void) {
 
 	printf("=== Loading Brain Network ===\n");
 
-	Graph *g = load_graph("data/brain_small.txt");
+	Graph *g = load_graph("brain_small.txt");
 
 	if (g) {
 
