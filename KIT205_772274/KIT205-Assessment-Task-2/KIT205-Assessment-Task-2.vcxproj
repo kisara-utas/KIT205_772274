@@ -131,6 +131,7 @@
     <ClInclude Include="graph.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dijkstra.c" />
     <ClCompile Include="graph.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
