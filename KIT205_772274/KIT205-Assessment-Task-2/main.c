@@ -156,7 +156,6 @@ void test_dijkstra_unreachable() {
 
 
 
-
 int main(void) {
 	char cwd[256];
 	_getcwd(cwd, sizeof(cwd));
@@ -180,6 +179,14 @@ int main(void) {
 		free_graph(g);	
 		
 	}
+
+	printf("=== Running Dijkstra's Algorithm ===\n");
+
+	test_dijkstra_simple();
+	test_dijkstra_prefers_strong_path();
+	test_dijkstra_unreachable();
+
+	printf("=== All Dijkstra tests passed ===\n");
 
 	return 0;
 
