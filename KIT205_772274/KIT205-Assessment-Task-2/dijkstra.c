@@ -65,3 +65,36 @@ void dijkstra(Graph *graph, int source, float *dist, int *prev) {
 
 
 }
+
+
+
+// print the path from source to target using the prev[] array
+
+void print_path(Graph *graph, int *prev, float *dist, int source, int target) {
+
+	if (dist[target] >= INFINITY_DIST) {
+		printf("No path from %s to %s\n", graph->labels[source], graph->labels[target]);
+		return;
+	}
+
+	int* path = malloc(graph->V * sizeof(int));
+	int len = 0;
+	int at = target;
+
+	while (at != -1) {
+		path[len++] = at;
+		at = prev[at];
+	}
+
+	printf(" %s", graph->labels[source]);
+	for (int i = len - 2; i >= 0; i--) {
+		printf(" -> %s", graph->labels[path[i]]);
+	}
+
+	printf(" (total cost: %.3f)\n", dist[target]);
+
+	free(path);
+	
+}
+
+
