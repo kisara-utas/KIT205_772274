@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dijkstra.h" />
     <ClInclude Include="graph.h" />
   </ItemGroup>
   <ItemGroup>
