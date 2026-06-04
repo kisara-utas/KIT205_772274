@@ -132,6 +132,27 @@ void test_dijkstra_prefers_strong_path() {
 
 }
 
+void test_dijkstra_unreachable() {
+
+	printf("TEST: Dijkstra marks unreachable nodes as infinity..");
+
+	Graph *g = new_graph(3);
+	add_edge(g, 0, 1, 1.0f); 
+	add_edge(g, 1, 0, 1.0f);
+
+	float dist[3];
+	int prev[3];
+	dijkstra(g, 0, dist, prev);
+
+
+	assert(dist[2] >= INFINITY_DIST);
+	assert(prev[2] == -1);
+
+
+	free_graph(g);
+	printf("PASSED\n");
+}
+
 
 
 
