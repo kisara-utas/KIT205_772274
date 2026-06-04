@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <direct.h>
 #include "graph.h"
+#include "dijkstra.h"
 
 void test_new_graph() {
 
@@ -76,6 +77,34 @@ void test_in_degrees() {
 	free_graph(g);
 	printf("PASSED\n");
 }
+
+
+void test_dijkstra_simple() {
+
+	printf("TEST: Dijkstra finds shortest path on simple graph..");
+
+	Graph* g = new_graph(3);
+	add_edge(g, 0, 1, 1.0f);
+	add_edge(g, 1, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f); 
+	add_edge(g, 2, 1, 1.0f); 
+
+	float dist[3];
+	int prev[3];
+	dijkstra(g, 0, dist, prev);
+
+	assert(dist[0] == 0.0f);
+	assert(dist[1] == 1.0f);	
+	assert(dist[2] == 2.0f);	
+	assert(prev[2] == 1);
+
+	free_graph(g);
+	printf("PASSED\n");
+
+}
+
+
+
 
 
 int main(void) {
