@@ -103,6 +103,35 @@ void test_dijkstra_simple() {
 
 }
 
+void test_dijkstra_prefers_strong_path() {
+
+	printf("TEST: Dijkstra prefers stronger (cheaper) connections...");
+
+	// 0 to 2 directly via a weak edge (0.25 -> cost 4.0)
+	// or via 1 with two strong edges (1.0 each -> cost 2.0)
+	// Dijkstra should prefer the stronger path through 1
+
+	Graph *g = new_graph(3);
+	add_edge(g, 0, 2, 0.25f);
+	add_edge(g, 2, 0, 0.25f);
+	add_edge(g, 0, 1, 1.0f); 
+	add_edge(g, 1, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+	add_edge(g, 2, 1, 1.0f);
+
+
+	float dist[3];
+	int prev[3];
+	dijkstra(g, 0, dist, prev);
+
+	assert(dist[2] == 2.0f);
+	assert(prev[2] == 1);
+
+	free_graph(g);
+	printf("PASSED\n");
+
+}
+
 
 
 
