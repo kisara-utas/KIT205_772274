@@ -153,6 +153,44 @@ void test_dijkstra_unreachable() {
 	printf("PASSED\n");
 }
 
+void test_centrality_identifies_hub() {
+	
+	printf("TEST: Centrality identifies the bridge node");
+
+	/*
+	* node 2 is the only bridge between {0,1} and {3,4}.
+	* 0-2-3
+	* 1-2-4
+	* Node 2 should have the highest centrality (all cross paths go through it)
+	*/
+
+	Graph *g = new_graph(5);
+	add_edge(g, 0, 2, 1.0f);
+	add_edge(g, 2, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+	add_edge(g, 2, 1, 1.0f);
+	add_edge(g, 2, 3, 1.0f);
+	add_edge(g, 3, 2, 1.0f);
+	add_edge(g, 2, 4, 1.0f);
+	add_edge(g, 4, 2, 1.0f);
+
+	float centrality[5];
+	betweenness_centrality(g, centrality);
+
+	//Node 2 must be strictly the most central
+	for (int v = 0; v < 5; v++) {
+		if (v != 2) assert(centrality[2] > centrality[v]);
+	}
+
+	// leaf nodes are on no through paths, so centrality becomes 0
+	assert(centrality[0] == 0.0f);
+
+	free_graph(g);
+	printf("PASSED\n");
+
+
+}
+
 
 
 
