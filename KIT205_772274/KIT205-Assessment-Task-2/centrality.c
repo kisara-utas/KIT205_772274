@@ -50,3 +50,42 @@ void betweenness_centrality(Graph* graph, float* centrality) {
 	free(prev);
 
 }
+
+//Simple selection style print
+void print_centrality_ranking(Graph *graph, float *centrality) {
+
+	int V = graph->V;
+	int *printed = malloc(V * sizeof(int));
+	for (int v = 0; v < V; v++) printed[v] = 0;
+
+	printf("\n====Betweenness Centrality Ranking====\n");
+	printf("(higher = more critical relay region)\n\n");
+
+	for (int rank = 0; rank < V; rank++) {
+
+		int best = -1;
+		float best_val = -1.0f;
+		for (int v = 0; v < V; v++) {
+
+			if (!printed[v] && centrality[v] > best_val) {
+
+				best_val = centrality[v];
+				best = v;
+			}
+
+
+		}
+
+		if (best == -1) break;
+
+		printed[best] = 1;
+
+		printf(" %2d. %-16s %.1f\n", rank + 1,
+			graph->labels[best] ? graph->labels[best] : "?",
+			centrality[best]);
+
+	}
+
+	printf("\n");
+	free(printed);
+}
