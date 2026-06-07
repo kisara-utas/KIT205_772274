@@ -191,6 +191,31 @@ void test_centrality_identifies_hub() {
 
 }
 
+void test_centrality_respects_lesion() {
+
+	printf("TEST: Centrality skips lesioned nodes");
+	Graph *g = new_graph(3);
+
+	add_edge(g, 0, 1, 1.0f);
+	add_edge(g, 1, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+	add_edge(g, 2, 1, 1.0f);
+
+	//lesion the bridge node 1 which means 0 and 2 cant reach each other. 
+
+	g->active[1] = 0;
+
+	float centrality[3];
+	betweenness_centrality(g, centrality);
+
+
+	//no paths possible through a lesioned node
+	assert(centrality[1] == 0.0f);
+
+	free_graph(g);
+	printf("PASSED\n")
+}
+
 
 
 
