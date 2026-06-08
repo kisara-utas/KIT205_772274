@@ -263,6 +263,20 @@ void test_connectivity_drops_after_lesion() {
 
 }
 
+void test_restore_all() {
+
+	printf("TEST: restore all reactivates lesioned nodes");
+
+	Graph *g = new_graph(3);
+	lesion_node(g, 1);
+	assert(g->active[1] == 0);
+	restore_all(g);
+	assert(g->active[1] == 1);
+
+	free_graph(g);
+	printf(" PASSED\n");
+}
+
 
 
 
