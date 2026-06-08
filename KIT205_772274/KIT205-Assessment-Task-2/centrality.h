@@ -18,4 +18,6 @@ void betweenness_centrality(Graph* graph, float* centrality);
 //print regions ranked by centrality (highest first)
 void print_centrality_ranking(Graph* graph, float* centrality);
 
+void rank_by_centrality(int V, float *centrality, int *ranking);
+
 #endif

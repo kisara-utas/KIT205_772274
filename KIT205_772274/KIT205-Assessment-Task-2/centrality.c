@@ -12,8 +12,8 @@ void betweenness_centrality(Graph* graph, float* centrality) {
 
 	}
 
-	float *dist = malloc(V * sizeof(float));
-	int   *prev = malloc(V * sizeof(int));
+	float* dist = malloc(V * sizeof(float));
+	int* prev = malloc(V * sizeof(int));
 
 	//Run shortest paths from every active source
 
@@ -22,7 +22,7 @@ void betweenness_centrality(Graph* graph, float* centrality) {
 		if (!graph->active[s]) {
 
 			continue;
-			
+
 		}
 
 		dijkstra(graph, s, dist, prev);
@@ -52,10 +52,10 @@ void betweenness_centrality(Graph* graph, float* centrality) {
 }
 
 //Simple selection style print
-void print_centrality_ranking(Graph *graph, float *centrality) {
+void print_centrality_ranking(Graph* graph, float* centrality) {
 
 	int V = graph->V;
-	int *printed = malloc(V * sizeof(int));
+	int* printed = malloc(V * sizeof(int));
 	for (int v = 0; v < V; v++) printed[v] = 0;
 
 	printf("\n====Betweenness Centrality Ranking====\n");
@@ -88,4 +88,44 @@ void print_centrality_ranking(Graph *graph, float *centrality) {
 
 	printf("\n");
 	free(printed);
+}
+
+
+void rank_by_centrality(int V, float *centrality, int *ranking) {
+
+	int *placed = malloc(V * sizeof(int));
+
+	for (int v = 0; v < V; v++) {
+
+		placed[v] = 0;
+	}
+
+
+	for (int rank = 0; rank < V; rank++) {
+
+		int best = -1;
+		float best_val = -1.0f;
+
+		for (int v = 0; v < V; v++) {
+
+			if (!placed[v] && centrality[v] > best_val) {
+
+				best_val = centrality[v];
+				best = v;
+
+			}
+
+		}
+
+		ranking[rank] = best;
+
+		if (best != -1) {
+
+			placed[best] = 1;
+		}
+
+	}
+
+	free(placed);
+
 }
