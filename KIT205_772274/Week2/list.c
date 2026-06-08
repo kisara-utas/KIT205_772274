@@ -92,3 +92,25 @@ void destroy_list(List* self) {
 	}
 	self->head = NULL;
 }
+
+
+void list_test() {
+	List my_list = new_list();
+
+	printf("Testing insert_at_front...\n ");
+
+	insert_at_front(&my_list, 5);
+	insert_at_front(&my_list, 3);
+	insert_at_front(&my_list, 7);
+	insert_at_front(&my_list, 2);
+	insert_at_front(&my_list, 0);
+
+
+	printf("Expected: 0, 2, 7, 3, 5\n");
+
+	printf("Result: ");
+
+	print_list(&my_list);
+}
+
+

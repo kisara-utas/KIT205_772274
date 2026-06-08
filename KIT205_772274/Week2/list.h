@@ -28,4 +28,8 @@ void insert_in_order(List* self, int data);
 void delete_list(List* self, int data);
 
 // Function to free the memory allocated to a list and all its nodes.
-void destroy_list(List* self); #pragma once
+void destroy_list(List* self);
+
+// Function to test the list implementation by creating a list, inserting some values, printing the list, deleting some values, and printing the list again.
+
+void list_test();

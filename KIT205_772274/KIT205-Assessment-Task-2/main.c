@@ -6,6 +6,8 @@
 #include "dijkstra.h"
 #include "lesion.h"
 #include "centrality.h"
+#include "experiment.h"
+#include <time.h>
 
 void test_new_graph() {
 
@@ -323,6 +325,27 @@ int main(void) {
 	test_connectivity_drops_after_lesion();
 	test_restore_all();
 	printf("All lesion tests passed.\n");
+
+	/* =================Part 2: Brain Network Investigation ===============*/
+
+	srand((unsigned int)time(NULL));
+
+	printf("\n=======Brain Network Investigation===========\n");
+
+	Graph *brain = load_graph("brain_small.txt");
+
+	if (brain) {
+
+		float* c = malloc(brain->V * sizeof(float));
+		betweenness_centrality(brain, c);
+		print_centrality_ranking(brain, c);
+		free(c);
+
+		run_lesion_experiment(brain, 5, 100);
+
+		free_graph(brain);
+
+	}
 
 	return 0;
 
