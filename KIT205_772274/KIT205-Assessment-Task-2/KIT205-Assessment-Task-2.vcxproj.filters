@@ -27,6 +27,9 @@
     <ClInclude Include="centrality.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lesion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.c">
