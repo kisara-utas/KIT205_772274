@@ -66,11 +66,11 @@ void run_lesion_experiment(Graph *graph, int max_remove, int trials) {
 
 	float baseline = connectivity(graph);
 
-	printf("\n====================Lesion Experiment: Targeted vs Random Node Removal================\n");
-	printf(" Baseline connectivity (healthy): %.4f\n", baseline);
+	printf("\n------ Lesion Experiment: Targeted vs Random Node Removal --------\n");
+	printf("\n Baseline connectivity (healthy): %.4f\n", baseline);
 	printf(" Random results averaged over %d trials\n\n", trials);
 	printf(" %-8s %-14s %-14s %-12s\n", "Removed", "Targeted", "Random(avg)", "Difference");
-	printf("-----------------------------------------------------------------------------\n");
+	printf("------------------------------------------------------------------\n");
 
 
 	for (int k = 1; k <= max_remove && k < V; k++) {
@@ -93,7 +93,7 @@ void run_lesion_experiment(Graph *graph, int max_remove, int trials) {
 
 	}
 
-	printf(" -----------------------------------------------------------------------------------------\n");
+	printf(" -----------------------------------------------------------------\n");
 	printf(" (Positive difference = targeted removal hurts more)\n\n");
 
 	restore_all(graph);

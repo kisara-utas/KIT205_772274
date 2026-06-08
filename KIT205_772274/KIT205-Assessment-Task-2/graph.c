@@ -64,20 +64,17 @@ Graph* load_graph(const char* filename) {
 
 		// Try relative path from project directory
 		snprintf(buffer, sizeof(buffer), "data/%s", filename);
-		printf("Trying: %s\n", buffer);
 		file = fopen(buffer, "r");
 
 		// Try from one level up
 		if (file == NULL) {
 			snprintf(buffer, sizeof(buffer), "../KIT205-Assessment-Task-2/data/%s", filename);
-			printf("Trying: %s\n", buffer);
 			file = fopen(buffer, "r");
 		}
 
 		// Try from two levels up
 		if (file == NULL) {
 			snprintf(buffer, sizeof(buffer), "../../KIT205-Assessment-Task-2/data/%s", filename);
-			printf("Trying: %s\n", buffer);
 			file = fopen(buffer, "r");
 		}
 
@@ -122,10 +119,7 @@ Graph* load_graph(const char* filename) {
 }
 
 void print_graph(Graph* self) {
-	printf("\n");
-	printf("============================================================\n");
-	printf("  Brain Network Graph  (%d regions)\n", self->V);
-	printf("============================================================\n");
+	
 
 	for (int v = 0; v < self->V; v++) {
 		const char* label = self->labels[v] ? self->labels[v] : "?";
@@ -148,7 +142,7 @@ void print_graph(Graph* self) {
 		}
 		printf("\n");
 	}
-	printf("============================================================\n\n");
+	
 }
 
 void free_graph(Graph* self) {

@@ -1,5 +1,34 @@
 
 #include "dijkstra.h"
+#include <math.h>
+
+CostModel g_cost_model = COST_RECIPROCAL; //default
+
+float strength_to_cost(float strength) {
+
+	if (strength <= 0.0f) {
+
+		return INFINITY_DIST; // no usable connection
+
+	}
+
+	switch (g_cost_model) {
+
+	case COST_NEG_LOG:
+
+		return -logf(strength);
+
+	case COST_RECIPROCAL:
+	default:
+		return 1.0f / strength;
+
+	}
+
+}
+
+
+
+
 
 /*
  * Dijkstra's shortest path algorithm
@@ -48,7 +77,7 @@ void dijkstra(Graph *graph, int source, float *dist, int *prev) {
 			int neighbour = curr->edge.to_vertex;
 			float strength = curr->edge.weight;
 			if (graph->active[neighbour] && strength > 0.0f) {
-				float cost = 1.0f / strength;
+				float cost = strength_to_cost(strength);
 
 				if (dist[u] + cost < dist[neighbour]) {
 					dist[neighbour] = dist[u] + cost;

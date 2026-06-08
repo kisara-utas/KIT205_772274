@@ -21,7 +21,7 @@ void test_new_graph() {
 	}
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 }
 
@@ -40,7 +40,7 @@ void test_add_edge() {
 	assert(g->edges[1].head == NULL);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 }
 
@@ -52,7 +52,7 @@ void test_load_graph() {
 	assert(g->edges[0].head != NULL);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 }
 
 
@@ -79,7 +79,7 @@ void test_in_degrees() {
 	assert(in_degree[2] == 2);	
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 }
 
 
@@ -103,7 +103,7 @@ void test_dijkstra_simple() {
 	assert(prev[2] == 1);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 }
 
@@ -132,7 +132,7 @@ void test_dijkstra_prefers_strong_path() {
 	assert(prev[2] == 1);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 }
 
@@ -154,7 +154,7 @@ void test_dijkstra_unreachable() {
 
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 }
 
 void test_centrality_identifies_hub() {
@@ -190,7 +190,7 @@ void test_centrality_identifies_hub() {
 	assert(centrality[0] == 0.0f);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 
 }
@@ -217,7 +217,7 @@ void test_centrality_respects_lesion() {
 	assert(centrality[1] == 0.0f);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 }
 
 void test_connectivity_full() {
@@ -237,7 +237,7 @@ void test_connectivity_full() {
 	assert(connectivity(g) == 1.0f);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 }
 
@@ -260,7 +260,7 @@ void test_connectivity_drops_after_lesion() {
 	assert(connectivity_after < connectivity_before);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
 
 
 }
@@ -276,76 +276,125 @@ void test_restore_all() {
 	assert(g->active[1] == 1);
 
 	free_graph(g);
-	printf(" PASSED\n");
+	printf(" [ PASSED ]\n");
+}
+
+void test_cost_models_differ() {
+
+	printf("TEST: Cost models produce different costs");
+
+	g_cost_model = COST_RECIPROCAL;
+
+	float recip = strength_to_cost(0.5f); // 1/0.5 = 2.0
+
+	g_cost_model = COST_NEG_LOG;
+
+	float neglog = strength_to_cost(0.5f); // -log(0.5) ~  0.693
+
+	assert(recip == 2.0f);
+	assert(neglog > 0.69f && neglog < 0.70f);
+	assert(recip != neglog);
+
+	g_cost_model = COST_RECIPROCAL;
+	printf(" [ PASSED ]\n");
+
+
+}
+
+static void run_investigation(Graph *brain, CostModel model, const char *model_name) {
+
+	g_cost_model = model;
+
+	printf("\n------- %s ------\n", model_name);
+
+
+	float* c = malloc(brain->V * sizeof(float));
+	betweenness_centrality(brain, c);
+	print_centrality_ranking(brain, c);
+
+	free(c);
+
+	run_lesion_experiment(brain, 5, 100);
+
+
 }
 
 
 
-
 int main(void) {
-	char cwd[256];
-	_getcwd(cwd, sizeof(cwd));
-	printf("Working directory: %s\n", cwd);
+	
+	//SECTION 1: UNIT TESTS
 
-	printf("=== Unit tests: Graph Data Structure ===\n");	
+	printf("\n");
+	printf("============================================================\n");
+	printf("  %s\n", "SECTION 1: UNIT TESTS");
+	printf("============================================================\n");
+
+	printf("\n--------Graph Data Structure----------\n");	
 	test_new_graph();
 	test_add_edge();
 	test_load_graph();
 	test_in_degrees();
-	printf("=== All tests passed ===\n");
+	
+
+	printf("\n--------Dijkstra's Algorithm----------\n");
+	test_dijkstra_simple();
+	test_dijkstra_prefers_strong_path();
+	test_dijkstra_unreachable();
+	
+
+	printf("\n--------Betweenness Centrality--------\n");
+	test_centrality_identifies_hub();
+	test_centrality_respects_lesion();
+	
+
+	printf("\n---------Lesion Simulation-------------\n");
+	test_connectivity_full();
+	test_connectivity_drops_after_lesion();
+	test_restore_all();
+
+	printf("\n-----------Cost Models-----------------\n");
+	test_cost_models_differ();
 
 
-	printf("=== Loading Brain Network ===\n");
+	printf("\n****** All unit tests passed ********\n");
 
-	Graph *g = load_graph("brain_small.txt");
+
+	// SECTION 2: BRAIN NETWORK STRUCTURE
+	printf("\n");
+	printf("============================================================\n");
+	printf("  %s\n", "SECTION 2: BRAIN NETWORK STRUCTURE (8 REGIONS)");
+	printf("============================================================\n\n");
+
+	Graph* g = load_graph("brain_small.txt");
 
 	if (g) {
 
 		print_graph(g);
-		free_graph(g);	
-		
+		free_graph(g);
+
 	}
 
-	printf("=== Running Dijkstra's Algorithm ===\n");
 
-	test_dijkstra_simple();
-	test_dijkstra_prefers_strong_path();
-	test_dijkstra_unreachable();
+	// SECTION 3: LESION SIMULATION
 
-	printf("=== All Dijkstra tests passed ===\n");
-
-	printf("\n=== Unit Tests: Betweeness Centrality ===\n");
-	test_centrality_identifies_hub();
-	test_centrality_respects_lesion();
-
-	printf("All centrality tests passed.\n");
-
-	printf("\n=== Unit tests: Lesion Simulation ===\n");
-	test_connectivity_full();
-	test_connectivity_drops_after_lesion();
-	test_restore_all();
-	printf("All lesion tests passed.\n");
-
-	/* =================Part 2: Brain Network Investigation ===============*/
+	printf("\n");
+	printf("============================================================\n");
+	printf("  %s\n", "SECTION 3: LESION INVESTIGATION");
+	printf("============================================================\n");
 
 	srand((unsigned int)time(NULL));
 
-	printf("\n=======Brain Network Investigation===========\n");
-
-	Graph *brain = load_graph("brain_small.txt");
+	Graph* brain = load_graph("brain_small.txt");
 
 	if (brain) {
 
-		float* c = malloc(brain->V * sizeof(float));
-		betweenness_centrality(brain, c);
-		print_centrality_ranking(brain, c);
-		free(c);
-
-		run_lesion_experiment(brain, 5, 100);
-
+		run_investigation(brain, COST_RECIPROCAL, "COST MODEL: 1 / strength");
+		run_investigation(brain, COST_NEG_LOG, "COST MODEL: -log(strength) (Alternate Approach)");
 		free_graph(brain);
-
 	}
+
+	g_cost_model = COST_RECIPROCAL;
 
 	return 0;
 

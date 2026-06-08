@@ -27,4 +27,18 @@ void dijkstra(Graph *graph, int source, float *dist, int *prev);
 void print_path(Graph *graph, int *prev, float *dist, int source, int target);
 
 
+//cost models for converting connection strength into path cost
+typedef enum {
+
+	COST_RECIPROCAL, // 1/strength 
+	COST_NEG_LOG     // -log(strength)
+} CostModel;
+
+//Global cost model used by dijkstra (simple approach)
+extern CostModel g_cost_model;
+
+// Converts a connection strength to a path cost under the current model
+float strength_to_cost(float strength);
+
+
 #endif

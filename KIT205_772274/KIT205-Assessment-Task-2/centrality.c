@@ -58,7 +58,7 @@ void print_centrality_ranking(Graph* graph, float* centrality) {
 	int* printed = malloc(V * sizeof(int));
 	for (int v = 0; v < V; v++) printed[v] = 0;
 
-	printf("\n====Betweenness Centrality Ranking====\n");
+	printf("\n------- Betweenness Centrality Ranking -------\n");
 	printf("(higher = more critical relay region)\n\n");
 
 	for (int rank = 0; rank < V; rank++) {
