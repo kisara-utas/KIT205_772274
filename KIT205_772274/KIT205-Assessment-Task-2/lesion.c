@@ -49,3 +49,37 @@ static int count_reachable(Graph* graph, int source) {
 	return reached;
 
 }
+
+
+float connectivity(Graph* graph) {
+
+	int V = graph->V;
+
+	//count active vertices
+	int active_count = 0;
+	for (int v = 0; v < V; v++) {
+
+		if (graph->active[v]) active_count++;
+
+	}
+
+	//need atleast 2 active nodes to have any pairs
+	if (active_count < 2) return 0.0f;
+
+	// sum reachable pairs over all active sources
+	long reachable_pairs = 0;
+	for (int s = 0; s < V; s++) {
+
+		if (!graph->active[s]) continue;
+
+		reachable_pairs += count_reachable(graph, s);
+
+	}
+
+	//total possible ordered pairs among active nodes
+	long total_pairs = (long)active_count * (active_count - 1);
+
+	return (float)reachable_pairs / (float)total_pairs;
+
+
+}
