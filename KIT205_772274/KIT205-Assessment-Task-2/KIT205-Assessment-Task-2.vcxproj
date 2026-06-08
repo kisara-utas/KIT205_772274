@@ -136,6 +136,7 @@
     <ClCompile Include="centrality.c" />
     <ClCompile Include="dijkstra.c" />
     <ClCompile Include="graph.c" />
+    <ClCompile Include="lesion.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
