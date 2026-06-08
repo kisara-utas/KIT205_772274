@@ -216,6 +216,27 @@ void test_centrality_respects_lesion() {
 	printf(" PASSED\n");
 }
 
+void test_connectivity_full() {
+
+	printf("TEST: Fully connected graph has connectivity 1.0.."); 
+
+	//Triangle: every node reaches every other
+	Graph *g = new_graph(3);
+
+	add_edge(g, 0, 1, 1.0f); 
+	add_edge(g, 1, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+	add_edge(g, 2, 1, 1.0f);
+	add_edge(g, 0, 2, 1.0f);
+	add_edge(g, 2, 0, 1.0f);
+
+	assert(connectivity(g) == 1.0f);
+
+	free_graph(g);
+	printf(" PASSED\n");
+
+}
+
 
 
 
