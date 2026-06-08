@@ -318,6 +318,12 @@ int main(void) {
 
 	printf("All centrality tests passed.\n");
 
+	printf("\n=== Unit tests: Lesion Simulation ===\n");
+	test_connectivity_full();
+	test_connectivity_drops_after_lesion();
+	test_restore_all();
+	printf("All lesion tests passed.\n");
+
 	return 0;
 
 }
