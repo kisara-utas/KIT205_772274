@@ -4,6 +4,8 @@
 #include <direct.h>
 #include "graph.h"
 #include "dijkstra.h"
+#include "lesion.h"
+#include "centrality.h"
 
 void test_new_graph() {
 
@@ -234,6 +236,30 @@ void test_connectivity_full() {
 
 	free_graph(g);
 	printf(" PASSED\n");
+
+}
+
+void test_connectivity_drops_after_lesion() {
+
+	printf("TEST: Lesioning a bridge node reduces connectivity");
+
+	//Line 0 - 1 - 2. Node 1 is the bridge
+	Graph* g = new_graph(3);
+	add_edge(g, 0, 1, 1.0f);
+	add_edge(g, 1, 0, 1.0f);
+	add_edge(g, 1, 2, 1.0f);
+	add_edge(g, 2, 1, 1.0f);
+
+	float connectivity_before = connectivity(g);
+	lesion_node(g, 1); //remove the bridge
+	float connectivity_after = connectivity(g);
+
+	//removing the bridge should disconnect 0 and 2
+	assert(connectivity_after < connectivity_before);
+
+	free_graph(g);
+	printf(" PASSED\n");
+
 
 }
 
