@@ -50,6 +50,9 @@
     <ClCompile Include="lesion.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="experiment.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\brain_small.txt">
