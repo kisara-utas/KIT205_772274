@@ -4,10 +4,10 @@
  *BFS from source, which counts how many active vertices are reachable without counjting the source
  * itself. SKips lesioned vertices entirely
  */
-static int count_reachable(Graph* graph, int source) {
+static int count_reachable(Graph *graph, int source) {
 
 	int V = graph->V;
-	int* visited = malloc(V * sizeof(int));
+	int *visited = malloc(V * sizeof(int));
 
 	for (int v = 0; v < V; v++) visited[v] = 0;
 
@@ -51,7 +51,7 @@ static int count_reachable(Graph* graph, int source) {
 }
 
 
-float connectivity(Graph* graph) {
+float connectivity(Graph *graph) {
 
 	int V = graph->V;
 
@@ -81,5 +81,18 @@ float connectivity(Graph* graph) {
 
 	return (float)reachable_pairs / (float)total_pairs;
 
+
+}
+
+
+void lesion_node(Graph *graph, int v) {
+
+	if (v >= 0 && v < graph->V) graph->active[v] = 0;
+
+}
+
+void restore_all(Graph* graph) {
+
+	for (int v = 0; v < graph->V; v++) graph->active[v] = 1;
 
 }
