@@ -17,7 +17,7 @@ void test_new_graph() {
 	}
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 
 }
 
@@ -36,7 +36,7 @@ void test_add_edge() {
 	assert(g->edges[1].head == NULL);
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 
 }
 
@@ -48,7 +48,7 @@ void test_load_graph() {
 	assert(g->edges[0].head != NULL);
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 }
 
 
@@ -75,7 +75,7 @@ void test_in_degrees() {
 	assert(in_degree[2] == 2);	
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 }
 
 
@@ -99,7 +99,7 @@ void test_dijkstra_simple() {
 	assert(prev[2] == 1);
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 
 }
 
@@ -128,7 +128,7 @@ void test_dijkstra_prefers_strong_path() {
 	assert(prev[2] == 1);
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 
 }
 
@@ -150,7 +150,7 @@ void test_dijkstra_unreachable() {
 
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 }
 
 void test_centrality_identifies_hub() {
@@ -186,7 +186,7 @@ void test_centrality_identifies_hub() {
 	assert(centrality[0] == 0.0f);
 
 	free_graph(g);
-	printf("PASSED\n");
+	printf(" PASSED\n");
 
 
 }
@@ -194,7 +194,7 @@ void test_centrality_identifies_hub() {
 void test_centrality_respects_lesion() {
 
 	printf("TEST: Centrality skips lesioned nodes");
-	Graph *g = new_graph(3);
+	Graph* g = new_graph(3);
 
 	add_edge(g, 0, 1, 1.0f);
 	add_edge(g, 1, 0, 1.0f);
@@ -213,7 +213,7 @@ void test_centrality_respects_lesion() {
 	assert(centrality[1] == 0.0f);
 
 	free_graph(g);
-	printf("PASSED\n")
+	printf(" PASSED\n");
 }
 
 
@@ -250,6 +250,12 @@ int main(void) {
 	test_dijkstra_unreachable();
 
 	printf("=== All Dijkstra tests passed ===\n");
+
+	printf("\n=== Unit Tests: Betweeness Centrality ===\n");
+	test_centrality_identifies_hub();
+	test_centrality_respects_lesion();
+
+	printf("All centrality tests passed.\n");
 
 	return 0;
 
